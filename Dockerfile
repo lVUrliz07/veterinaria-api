@@ -1,20 +1,37 @@
-# Usa una imagen oficial de Node.js como base. Piensa en esto como el "sistema operativo".
-FROM node:18-alpine
+# --- FASE 1: EL CONSTRUCTOR (BUILDER) ---
+# Usamos una imagen completa de Node para tener todas las herramientas de construcción
+FROM node:18 AS builder
 
-# Establece el directorio de trabajo dentro del contenedor.
+# Establecemos el directorio de trabajo
 WORKDIR /usr/src/app
 
-# Copia los archivos de definición de dependencias.
+# Copiamos los archivos de dependencias y las instalamos TODAS (incluyendo las de desarrollo)
 COPY package*.json ./
-
-# Instala las dependencias del proyecto.
 RUN npm install
 
-# Copia el resto de los archivos de tu aplicación al contenedor.
+# Copiamos el resto del código fuente
 COPY . .
 
-# Expone el puerto 3000 para que podamos acceder a la API desde fuera del contenedor.
+# ¡EL PASO CLAVE! Compilamos el código de TypeScript a JavaScript
+RUN npm run build
+
+# --- FASE 2: EL EJECUTOR (RUNNER) ---
+# Usamos una imagen "alpine", que es súper ligera y segura
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+# Copiamos los archivos de dependencias de nuevo
+COPY package*.json ./
+
+# ¡Instalamos SOLAMENTE las dependencias de PRODUCCIÓN! Esto hace la imagen final mucho más pequeña.
+RUN npm ci --omit=dev
+
+# Copiamos el código ya compilado desde la fase "builder"
+COPY --from=builder /usr/src/app/dist ./dist
+
+# Expone el puerto 3000
 EXPOSE 3000
 
-# El comando que se ejecutará cuando el contenedor se inicie.
-CMD ["npm", "run", "start:dev"]
+# El comando para correr la aplicación en producción (directamente con Node, no con npm run start:dev)
+CMD ["node", "dist/main.js"]

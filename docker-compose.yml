@@ -1,31 +1,24 @@
-version: '3.8'
-
+# Si quieres, puedes borrar la línea 'version: 3.8' para quitar la advertencia
 services:
-  # Servicio de nuestra API NestJS
   api:
     build: .
     depends_on:
       - db
     ports:
       - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=mysecretpassword
-      - DB_DATABASE=postgres
+    # ¡ESTA ES LA LÍNEA CLAVE QUE FALTABA!
+    # Le ordena a Docker Compose que cargue el archivo .env en este contenedor
+    env_file:
+      - ./.env
 
-  # Servicio de nuestra Base de Datos PostgreSQL
   db:
     image: postgres:14
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_DB=postgres
+      # Leemos las variables desde el archivo .env
+      POSTG-RES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
