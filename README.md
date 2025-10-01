@@ -73,8 +73,8 @@ Esta API está lista para ser consumida. Aquí tienes la información clave para
 
 Una vez que levantes el backend con `docker-compose up`, la URL base para todas las peticiones es:
 http://localhost:3000
-code
-Code
+
+
 ### 2. Endpoints Disponibles
 
 *   `GET /tasks`: Obtiene una lista de todas las tareas.
@@ -92,16 +92,19 @@ Debes enviar un cuerpo (body) con este formato:
   "title": "Un título para la tarea",
   "description": "Una descripción detallada de la tarea."
 }
+
 Respuesta de la API (Ejemplo para GET /tasks/:id)
+
 La API te devolverá objetos con este formato:
-code
-JSON
+
 {
   "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
   "title": "Un título para la tarea",
   "description": "Una descripción detallada de la tarea.",
   "status": "PENDING"
 }
+
 4. Documentación Completa e Interactiva
 Para una guía completa y la posibilidad de probar cada endpoint directamente desde el navegador, visita la documentación de Swagger una vez que el backend esté corriendo:
 http://localhost:3000/api-docs
+
