@@ -2,10 +2,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'; // <-- IMPORTA ESTO
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // ¡ESTA ES LA LÍNEA QUE AÑADIMOS!
+  // Le da permiso al frontend para que se pueda comunicar con nuestra API.
+  app.enableCors();
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -19,10 +23,10 @@ async function bootstrap() {
     .setTitle('Task Manager API')
     .setDescription('La API para nuestro proyecto de gestión de tareas')
     .setVersion('1.0')
-    .addTag('tasks') // Agruparemos nuestros endpoints bajo la etiqueta "tasks"
+    .addTag('tasks')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document); // La URL será http://localhost:3000/api-docs
+  SwaggerModule.setup('api-docs', app, document);
   // --- TERMINA CONFIGURACIÓN DE SWAGGER ---
 
   await app.listen(3000);
