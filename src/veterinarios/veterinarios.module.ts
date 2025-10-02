@@ -8,5 +8,6 @@ import { Veterinario } from './entities/veterinario.entity';
   imports: [TypeOrmModule.forFeature([Veterinario])],
   controllers: [VeterinariosController],
   providers: [VeterinariosService],
+  exports: [VeterinariosService],
 })
 export class VeterinariosModule {}

@@ -12,5 +12,6 @@ import { PersonasModule } from '../personas/personas.module'; // <-- IMPORTANTE
   ],
   controllers: [MascotasController],
   providers: [MascotasService],
+  exports: [MascotasService],
 })
 export class MascotasModule {}

@@ -1,8 +1,10 @@
 // src/veterinarios/entities/veterinario.entity.ts
+import { Consulta } from '../../consultas/entities/consulta.entity'; // <-- ¡IMPORTANTE! Añadir esta importación
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,5 +41,7 @@ export class Veterinario {
   @UpdateDateColumn()
   updated_at: Date;
 
-  // Las relaciones con Consultas, Cirugías, etc., las añadiremos después.
+  // --- ¡LA PIEZA QUE FALTABA! LA RELACIÓN INVERSA ---
+  @OneToMany(() => Consulta, (consulta) => consulta.veterinario)
+  consultas: Consulta[];
 }

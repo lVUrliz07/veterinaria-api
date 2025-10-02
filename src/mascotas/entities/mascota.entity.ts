@@ -1,10 +1,12 @@
 // src/mascotas/entities/mascota.entity.ts
 import { Persona } from '../../personas/entities/persona.entity';
+import { Consulta } from '../../consultas/entities/consulta.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -13,7 +15,7 @@ export class Mascota {
   @PrimaryGeneratedColumn()
   id_mascota: number;
 
-  // --- ¡LA RELACIÓN CLAVE! ---
+  // --- RELACIÓN CON PERSONA ---
   // Muchas mascotas pueden pertenecer a UNA persona.
   @ManyToOne(() => Persona, (persona) => persona.mascotas, { nullable: false })
   persona: Persona;
@@ -33,4 +35,9 @@ export class Mascota {
 
   @CreateDateColumn()
   created_at: Date;
+
+  // --- RELACIÓN INVERSA CON CONSULTAS ---
+  // Una mascota puede tener MUCHAS consultas
+  @OneToMany(() => Consulta, (consulta) => consulta.mascota)
+  consultas: Consulta[];
 }

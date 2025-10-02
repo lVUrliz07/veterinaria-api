@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersonasModule } from './personas/personas.module';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { VeterinariosModule } from './veterinarios/veterinarios.module';
+import { ConsultasModule } from './consultas/consultas.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { VeterinariosModule } from './veterinarios/veterinarios.module';
     PersonasModule,
     MascotasModule,
     VeterinariosModule,
+    ConsultasModule,
     // ¡Aquí iremos añadiendo los nuevos módulos como PersonasModule, MascotasModule, etc.!
   ],
   controllers: [], // Vacío por ahora
