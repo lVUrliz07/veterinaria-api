@@ -1,110 +1,204 @@
-# Task Manager API 🚀
+# API de Sistema de Veterinaria 🚀🐾
 
-API RESTful para la gestión de tareas, construida con NestJS, TypeScript, PostgreSQL y completamente dockerizada.
+API RESTful completa para la gestión de una veterinaria, construida con NestJS, TypeScript, PostgreSQL y completamente dockerizada. Este proyecto incluye gestión de dueños (personas), mascotas, veterinarios, consultas y un sistema de autenticación seguro basado en JWT.
 
-## Características
+## ✨ Características Principales
 
-*   **CRUD completo** para tareas (Crear, Leer, Actualizar, Eliminar).
-*   **Entorno 100% Dockerizado** para una fácil puesta en marcha.
-*   **Documentación de API** interactiva con Swagger.
-*   **Configuración optimizada** para producción.
+*   **Arquitectura Modular:** Separación clara de responsabilidades (`Personas`, `Mascotas`, `Veterinarios`, `Consultas`, `Auth`).
+*   **Relaciones de Datos Complejas:** Manejo de relaciones `One-to-Many` entre las entidades.
+*   **Seguridad con JWT:** Sistema de registro y login que genera tokens de acceso para proteger los endpoints.
+*   **Entorno 100% Dockerizado:** Configuración "lista para producción" con `Dockerfile` multi-etapa para una fácil puesta en marcha y eficiencia.
+*   **Validación de Datos:** Uso de DTOs y `class-validator` para asegurar la integridad de los datos de entrada.
+*   **Documentación de API Interactiva:** Generada automáticamente con Swagger.
 
 ---
 
-## Requisitos Previos
+## 🛠️ Requisitos Previos
+
+Para levantar este proyecto, solo necesitas tener instalados:
 
 *   [Docker](https://www.docker.com/products/docker-desktop/)
 *   [Docker Compose](https://docs.docker.com/compose/install/)
 
 ---
 
-## Puesta en Marcha (Instrucciones de Lanzamiento)
+## 🚀 Puesta en Marcha (Instrucciones de Lanzamiento)
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone https://github.com/TuUsuario/task-manager-api.git
-    cd task-manager-api
-    ```
+Seguir estos pasos te permitirá tener el backend funcionando en menos de 5 minutos.
 
-2.  **Crear el archivo de variables de entorno:**
-    Crea un archivo llamado `.env` en la raíz del proyecto y copia el contenido de `.env.example` (si lo tuvieras) o añade las siguientes variables:
-    ```env
-    DB_HOST=db
-    DB_PORT=5432
-    DB_USERNAME=postgres
-    DB_PASSWORD=mysecretpassword
-    DB_DATABASE=postgres
-    ```
+### 1. Clonar el Repositorio
 
-3.  **Construir y levantar los contenedores:**
-    Este comando construirá la imagen de la API y levantará tanto la API como la base de datos.
-    ```bash
-    docker-compose up --build
-    ```
+Abre tu terminal y ejecuta (no olvides reemplazar la URL):
+```bash
+git clone https://github.com/TuUsuario/tu-repositorio.git
+cd tu-repositorio
+```
+
+### 2. Crear el Archivo de Variables de Entorno
+
+Este proyecto utiliza un archivo `.env` para gestionar las credenciales.
+Crea una copia del archivo de ejemplo:
+
+```bash
+# En Mac/Linux
+cp .env.example .env
+
+# En Windows (Command Prompt o PowerShell)
+copy .env.example .env
+```
+¡No necesitas modificar el archivo `.env`! Los valores por defecto están configurados para funcionar con Docker.
+
+### 3. Construir y Levantar los Contenedores
+
+Este comando construirá la imagen de la API y levantará todos los servicios.
+```bash
+docker-compose up --build
+```
+**¡Espera a que la terminal muestre el mensaje `[NestApplication] Nest application successfully started`!** En el primer arranque, la base de datos puede tardar unos segundos en inicializarse. Es normal ver algunos reintentos de conexión.
 
 ---
 
-## Verificación
+## ✅ Verificación y Uso
 
-Una vez que los contenedores estén corriendo, puedes verificar que todo funciona:
+Una vez que los contenedores estén corriendo, el sistema está listo.
 
-*   **API:** La API estará disponible en `http://localhost:3000`.
-*   **Documentación Swagger:** La documentación interactiva estará en `http://localhost:3000/api-docs`.
-
-Puedes usar la colección de Postman (si la exportas) o Swagger para probar los endpoints.
+*   **URL Base de la API:** `http://localhost:3000`
+*   **Documentación Swagger:** `http://localhost:3000/api-docs`
 
 ---
 
-## Endpoints Principales
+## 🔐 Guía Esencial para el Desarrollador Frontend
 
-*   `POST /tasks`: Crear una nueva tarea.
-*   `GET /tasks`: Obtener todas las tareas.
-*   `GET /tasks/:id`: Obtener una tarea por su ID.
-*   `PATCH /tasks/:id`: Actualizar una tarea.
-*   `DELETE /tasks/:id`: Eliminar una tarea.
+**¡MUY IMPORTANTE!** Todos los endpoints de datos (excepto `register` y `login`) están protegidos y requieren autenticación.
 
+### Flujo de Autenticación Obligatorio:
 
+1.  **Registrar un Usuario (Dueño/Persona):**
+    *   **Endpoint:** `POST /auth/register`
+    *   **Body (Ejemplo):**
+        ```json
+        {
+            "dni": "12345678A",
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "password": "passwordSegura123"
+        }
+        ```
 
-## 📚 Guía para el Desarrollador Frontend
+2.  **Iniciar Sesión para Obtener un Token:**
+    *   **Endpoint:** `POST /auth/login`
+    *   **Body (Ejemplo):**
+        ```json
+        {
+            "dni": "12345678A",
+            "pass": "passwordSegura123"
+        }
+        ```
+    *   **Respuesta Exitosa:** Recibirás tu `accessToken`.
+        ```json
+        {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        }
+        ```
 
-Esta API está lista para ser consumida. Aquí tienes la información clave para empezar.
+3.  **Realizar Peticiones Protegidas:**
+    *   Para llamar a cualquier otro endpoint (`/personas`, `/mascotas`, etc.), debes incluir el token en la cabecera de autorización.
+    *   **Header:** `Authorization`
+    *   **Valor:** `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` (La palabra `Bearer`, un espacio, y luego el token).
 
-### 1. URL Base de la API
+### Endpoints Principales Disponibles
 
-Una vez que levantes el backend con `docker-compose up`, la URL base para todas las peticiones es:
-http://localhost:3000
+#### Autenticación (Públicos)
+*   `POST /auth/register`
+*   `POST /auth/login`
 
+#### Personas (Protegidos)
+*   `GET /personas`
+*   `POST /personas`
+*   ... (CRUD completo disponible)
 
-### 2. Endpoints Disponibles
+#### Mascotas (Protegidos)
+*   `GET /mascotas`
+*   `POST /mascotas`
+*   ... (CRUD completo disponible)
 
-*   `GET /tasks`: Obtiene una lista de todas las tareas.
-*   `GET /tasks/:id`: Obtiene una tarea específica por su ID.
-*   `POST /tasks`: Crea una nueva tarea.
-*   `PATCH /tasks/:id`: Actualiza una tarea existente.
-*   `DELETE /tasks/:id`: Elimina una tarea.
+#### Veterinarios (Protegidos)
+*   `GET /veterinarios`
+*   `POST /veterinarios`
+*   ... (CRUD completo disponible)
 
-### 3. "Contrato" de Datos (Ejemplos de JSON)
+#### Consultas (Protegidos)
+*   `GET /consultas`
+*   `POST /consultas`
 
-#### Para Crear una Tarea (`POST /tasks`)
-Debes enviar un cuerpo (body) con este formato:
-```json
-{
-  "title": "Un título para la tarea",
-  "description": "Una descripción detallada de la tarea."
-}
+Para una referencia completa y probar los endpoints, usa la documentación de Swagger. **Recuerda hacer clic en el botón "Authorize" en la parte superior derecha de Swagger y pegar tu Bearer Token** para poder probar los endpoints protegidos.
 
-Respuesta de la API (Ejemplo para GET /tasks/:id)
+---
 
-La API te devolverá objetos con este formato:
+## 🎨 ¡Misión para el Equipo Frontend!
 
-{
-  "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-  "title": "Un título para la tarea",
-  "description": "Una descripción detallada de la tarea.",
-  "status": "PENDING"
-}
+¡Soldado del Frontend! El backend de operaciones está desplegado y fortificado. Tu misión, si decides aceptarla, es construir la **Interfaz de Mando Gráfica (UI)** para este sistema.
 
-4. Documentación Completa e Interactiva
-Para una guía completa y la posibilidad de probar cada endpoint directamente desde el navegador, visita la documentación de Swagger una vez que el backend esté corriendo:
-http://localhost:3000/api-docs
+### Stack Tecnológico Recomendado
 
+*   **Framework:** **React** o **Vue 3**.
+*   **Herramienta de Construcción:** **Vite** (para una velocidad de desarrollo supersónica).
+*   **Librería de Componentes:** **Material-UI (MUI)**, **Tailwind CSS** o **Bootstrap**.
+*   **Cliente HTTP:** **Axios**.
+
+### Guía de Inicio Rápido (Ejemplo con React + Vite)
+
+1.  **Crea tu Proyecto Frontend (en una carpeta separada):**
+    ```bash
+    npm create vite@latest mi-veterinaria-frontend -- --template react
+    cd mi-veterinaria-frontend
+    ```
+
+2.  **Instala tu Cliente HTTP:**
+    ```bash
+    npm install axios
+    ```
+
+3.  **Configura la Comunicación con la API:**
+    Crea un archivo como `src/api/axios.js` para centralizar la configuración.
+
+    **Ejemplo de configuración de Axios:**
+    ```javascript
+    import axios from 'axios';
+
+    const apiClient = axios.create({
+      baseURL: 'http://localhost:3000', // ¡La URL de nuestra API!
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // ¡IMPORTANTE! Interceptor para añadir el Token a cada petición
+    apiClient.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('accessToken'); // O donde sea que guardes el token
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
+
+    export default apiClient;
+    ```
+
+4.  **Flujo de Trabajo Sugerido:**
+    *   **Crea las Vistas de Autenticación:** Empieza por las pantallas de `Registro` y `Login`.
+    *   **Gestiona el Token:** Al hacer login exitoso, guarda el `accessToken` en `localStorage` o en un gestor de estado.
+    *   **Crea las Vistas CRUD:** Construye los componentes para `Listar Personas`, `Crear Mascota`, etc., usando tu `apiClient`.
+    *   **Rutas Protegidas:** Implementa rutas privadas que solo sean accesibles si el usuario tiene un token válido.
+
+### Recordatorio Clave
+
+*   **CORS ya está habilitado** en el backend. No tendrás problemas de comunicación.
+*   **Usa la documentación de Swagger (`http://localhost:3000/api-docs`)** como tu mejor amigo.
+
+**¡El backend está listo y esperando tus órdenes! ¡Buena suerte, soldado!**
