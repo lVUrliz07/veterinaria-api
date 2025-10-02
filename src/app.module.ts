@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersonasModule } from './personas/personas.module';
 import { MascotasModule } from './mascotas/mascotas.module';
+import { VeterinariosModule } from './veterinarios/veterinarios.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MascotasModule } from './mascotas/mascotas.module';
     }),
     PersonasModule,
     MascotasModule,
+    VeterinariosModule,
     // ¡Aquí iremos añadiendo los nuevos módulos como PersonasModule, MascotasModule, etc.!
   ],
   controllers: [], // Vacío por ahora
