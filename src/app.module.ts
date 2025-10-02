@@ -2,8 +2,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TasksModule } from './tasks/tasks.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,10 +14,11 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: false, // ¡Mantenemos la seguridad!
     }),
-    TasksModule,
-    AuthModule,
+    // ¡Aquí iremos añadiendo los nuevos módulos como PersonasModule, MascotasModule, etc.!
   ],
+  controllers: [], // Vacío por ahora
+  providers: [], // Vacío por ahora
 })
 export class AppModule {}
