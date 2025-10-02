@@ -7,12 +7,15 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { VeterinariosService } from './veterinarios.service';
 import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
 import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
 
 @Controller('veterinarios')
+@UseGuards(AuthGuard('jwt')) // <-- ¡GUARDIÁN DESPLEGADO AQUÍ!
 export class VeterinariosController {
   constructor(private readonly veterinariosService: VeterinariosService) {}
 
