@@ -20,7 +20,7 @@ import { ConsultasModule } from './consultas/consultas.module';
       autoLoadEntities: true,
       synchronize: false, // ¡Mantenemos la seguridad!
     }),
-    PersonasModule,
+    PersonasModule, //hola
     MascotasModule,
     VeterinariosModule,
     ConsultasModule,
