@@ -1,3 +1,4 @@
+// src/personas/personas.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersonasService } from './personas.service';
@@ -8,5 +9,6 @@ import { Persona } from './entities/persona.entity';
   imports: [TypeOrmModule.forFeature([Persona])],
   controllers: [PersonasController],
   providers: [PersonasService],
+  exports: [PersonasService], // <--- ¡ESTA ES LA LÍNEA MÁGICA!
 })
 export class PersonasModule {}

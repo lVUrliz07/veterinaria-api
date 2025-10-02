@@ -1,15 +1,17 @@
 // src/personas/entities/persona.entity.ts
+import { Mascota } from '../../mascotas/entities/mascota.entity'; // <-- ¡IMPORTANTE! Añadir esta importación
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'personas' }) // Le decimos que la tabla se llame 'personas'
+@Entity({ name: 'personas' })
 export class Persona {
-  @PrimaryGeneratedColumn() // SERIAL PRIMARY KEY se traduce a esto
+  @PrimaryGeneratedColumn()
   id_persona: number;
 
   @Column({ type: 'varchar', length: 20, unique: true, nullable: false })
@@ -33,13 +35,13 @@ export class Persona {
   @Column({ type: 'text', nullable: true })
   direccion: string;
 
-  // ... otros campos opcionales como tipo_sangre, alergias, etc. los añadiremos si son necesarios
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  // La relación con Mascotas la añadiremos cuando creemos la entidad Mascota.
+  // --- ¡LA PIEZA QUE FALTABA! LA RELACIÓN INVERSA ---
+  @OneToMany(() => Mascota, (mascota) => mascota.persona)
+  mascotas: Mascota[];
 }
