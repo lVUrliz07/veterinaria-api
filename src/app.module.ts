@@ -6,6 +6,7 @@ import { PersonasModule } from './personas/personas.module';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { VeterinariosModule } from './veterinarios/veterinarios.module';
 import { ConsultasModule } from './consultas/consultas.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,12 +19,13 @@ import { ConsultasModule } from './consultas/consultas.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadEntities: true,
-      synchronize: false, // ¡Mantenemos la seguridad!
+      synchronize: true, // ¡Mantenemos la seguridad!
     }),
     PersonasModule, //hola
     MascotasModule,
     VeterinariosModule,
     ConsultasModule,
+    AuthModule,
     // ¡Aquí iremos añadiendo los nuevos módulos como PersonasModule, MascotasModule, etc.!
   ],
   controllers: [], // Vacío por ahora

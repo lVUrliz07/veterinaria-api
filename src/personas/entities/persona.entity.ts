@@ -1,5 +1,5 @@
 // src/personas/entities/persona.entity.ts
-import { Mascota } from '../../mascotas/entities/mascota.entity'; // <-- ¡IMPORTANTE! Añadir esta importación
+import { Mascota } from '../../mascotas/entities/mascota.entity';
 import {
   Column,
   CreateDateColumn,
@@ -35,13 +35,17 @@ export class Persona {
   @Column({ type: 'text', nullable: true })
   direccion: string;
 
+  // --- CAMPO PASSWORD AÑADIDO ---
+  @Column({ type: 'varchar', nullable: false })
+  password: string;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  // --- ¡LA PIEZA QUE FALTABA! LA RELACIÓN INVERSA ---
+  // --- RELACIÓN INVERSA CON MASCOTAS ---
   @OneToMany(() => Mascota, (mascota) => mascota.persona)
   mascotas: Mascota[];
 }

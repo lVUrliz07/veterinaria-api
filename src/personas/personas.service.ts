@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePersonaDto } from './dto/create-persona.dto';
@@ -25,6 +29,17 @@ export class PersonasService {
     const persona = await this.personaRepository.findOneBy({ id_persona: id });
     if (!persona) {
       throw new NotFoundException(`Persona con ID #${id} no encontrada.`);
+    }
+    return persona;
+  }
+
+  // --- NUEVO MÉTODO AÑADIDO ---
+  async findOneByDni(dni: string) {
+    const persona = await this.personaRepository.findOneBy({ dni });
+    if (!persona) {
+      throw new UnauthorizedException(
+        'Credenciales inválidas (DNI no encontrado)',
+      );
     }
     return persona;
   }
