@@ -17,7 +17,7 @@ services:
       - "5432:5432"
     environment:
       # Leemos las variables desde el archivo .env
-      POSTG-RES_USER: ${DB_USERNAME}
+      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     volumes:

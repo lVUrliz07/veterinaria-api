@@ -1,4 +1,6 @@
-import { IsOptional, IsString } from 'class-validator';
+// src/tasks/dto/update-task.dto.ts
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { TaskStatus } from '../enums/task-status.enum'; // <-- ¡AQUÍ ESTÁN LOS CAMBIOS!
 
 export class UpdateTaskDto {
   @IsString()
@@ -9,7 +11,7 @@ export class UpdateTaskDto {
   @IsOptional()
   description?: string;
 
-  @IsString()
+  @IsEnum(TaskStatus) // <-- Valida que sea un valor del enum
   @IsOptional()
-  status?: string;
+  status?: TaskStatus; // <-- El tipo ahora es TaskStatus, no string
 }
