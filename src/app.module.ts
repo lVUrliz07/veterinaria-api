@@ -19,7 +19,7 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadEntities: true,
-      synchronize: false, // ¡Mantenemos la seguridad!
+      synchronize: true, // Temporal para crear tablas
     }),
     PersonasModule, //hola
     MascotasModule,
