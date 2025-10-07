@@ -1,77 +1,16 @@
-# 🐾 Sistema Veterinario Web
+# React + Vite
 
-Aplicación web desarrollada con React + Vite + Material UI, que permite la gestión integral de personas, mascotas, veterinarios y consultas.
-Incluye autenticación con rutas protegidas, integración de API REST, y una interfaz moderna con tema verde-turquesa.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🚀 Tecnologías principales
+Currently, two official plugins are available:
 
-| Tecnología | Descripción |
-|------------|-------------|
-| ⚛️ React 18 | Librería principal para la interfaz. |
-| ⚡ Vite | Entorno de desarrollo rápido con HMR. |
-| 🎨 Material UI (MUI) | Componentes modernos y responsivos. |
-| 🔐 JWT + Context API | Autenticación y manejo de sesión. |
-| 🌈 Axios | Cliente HTTP para conexión con el backend. |
-| 🧩 React Router v6 | Navegación entre vistas y rutas protegidas. |
-| 🪄 ESLint + Prettier | Estilo de código limpio y consistente. |
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🧰 Estructura del proyecto
+## React Compiler
 
-```
-veterinaria-frontend/
-├── src/
-│   ├── components/
-│   │   ├── auth/
-│   │   │   └── Login.jsx
-│   │   ├── personas/
-│   │   │   └── Personas.jsx
-│   │   ├── mascotas/
-│   │   │   └── Mascotas.jsx
-│   │   ├── veterinarios/
-│   │   │   └── Veterinarios.jsx
-│   │   ├── consultas/
-│   │   │   └── Consultas.jsx
-│   │   ├── ProtectedRoute.jsx
-│   │   └── Dashboard.jsx
-│   ├── contexts/
-│   │   └── AuthContext.jsx
-│   ├── services/
-│   │   └── apiClient.js
-│   ├── App.jsx
-│   ├── index.jsx
-│   └── App.css
-├── .gitignore
-├── eslint.config.js
-├── package.json
-└── vite.config.js
-```
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## ⚙️ Instalación y ejecución
+## Expanding the ESLint configuration
 
-### 1️⃣ Clona el repositorio
-```bash
-git clone https://github.com/tuusuario/veterinaria-frontend.git
-cd veterinaria-frontend
-```
-
-### 2️⃣ Instala dependencias
-```bash
-npm install
-```
-
-### 3️⃣ Ejecuta en modo desarrollo
-```bash
-npm run dev
-```
-
-### 4️⃣ Compila para producción
-```bash
-npm run build
-```
-
-## 🔑 Variables de entorno (si aplican)
-
-Crea un archivo `.env` en la raíz con las siguientes variables:
-
-```
-VITE_API_URL=http://localhost:3000
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

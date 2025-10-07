@@ -1,62 +1,68 @@
 :root {
-  font-family: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  /* Paleta base */
-  --color-primary: #4caf50;  /* Verde natural */
-  --color-secondary: #00bcd4; /* Turquesa */
-  --color-bg: #e8f5e8;        /* Verde muy claro */
-  --color-text: #222222;      /* Negro suave */
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
 }
 
 body {
   margin: 0;
+  display: flex;
+  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: 'Roboto', sans-serif;
-  display: flex;
-  flex-direction: column;
 }
 
-a {
-  color: var(--color-secondary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-primary);
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 button {
   border-radius: 8px;
-  border: none;
+  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--color-primary);
-  color: white;
+  background-color: #1a1a1a;
   cursor: pointer;
-  transition: background-color 0.25s, transform 0.2s;
+  transition: border-color 0.25s;
 }
-
 button:hover {
-  background-color: var(--color-secondary);
-  transform: scale(1.02);
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
-h1, h2, h3, h4, h5 {
-  color: var(--color-text);
-  margin-top: 0;
-}
-
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --color-bg: #1e1e1e;
-    --color-text: #e0e0e0;
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
   }
 }

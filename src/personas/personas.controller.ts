@@ -14,6 +14,10 @@ import { PersonasService } from './personas.service';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 
+// ⚠️ AVISO IMPORTANTE:
+// El método POST de personas fue eliminado el 2025-10-06.
+// La documentación de Swagger puede mostrarlo aún, pero no está disponible en esta versión.
+
 @Controller('personas')
 @UseGuards(AuthGuard('jwt')) // <-- ¡GUARDIÁN DESPLEGADO AQUÍ!
 export class PersonasController {
