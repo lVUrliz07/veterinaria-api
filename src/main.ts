@@ -35,6 +35,6 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document);
   // --- TERMINA CONFIGURACIÓN DE SWAGGER ---
 
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap().catch((err) => console.error(err));

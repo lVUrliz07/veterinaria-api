@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../api/axios';
+import './Login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
+const Login = ({ onLogin }) => {
+  const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const endpoint = isLogin ? '/auth/login' : '/auth/register';
-      const response = await apiClient.post(endpoint, { email, password });
+      const payload = isLogin ? { dni, pass: password } : { dni, nombre: '', apellido: '', pass: password, email: '' }; // Adjust for register
+      const response = await apiClient.post(endpoint, payload);
       if (isLogin) {
         localStorage.setItem('accessToken', response.data.access_token);
-        alert('Login successful');
-        // Aquí puedes redirigir a otra página, por ejemplo, usando React Router
+        onLogin();
+        navigate('/dashboard');
       } else {
         alert('Registered successfully');
         setIsLogin(true);
@@ -25,39 +29,43 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-      <h2>{isLogin ? 'Login' : 'Register'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
-        <button type="submit" style={{ width: '100%', padding: '10px' }}>
-          {isLogin ? 'Login' : 'Register'}
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="login-title">{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="dni">DNI</label>
+            <input
+              type="text"
+              id="dni"
+              placeholder="Ingresa tu DNI"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Ingresa tu contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="login-btn">
+            {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+          </button>
+        </form>
+        <button
+          onClick={() => setIsLogin(!isLogin)}
+          className="switch-btn"
+        >
+          {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia Sesión'}
         </button>
-      </form>
-      <button
-        onClick={() => setIsLogin(!isLogin)}
-        style={{ width: '100%', padding: '10px', marginTop: '10px' }}
-      >
-        {isLogin ? 'Switch to Register' : 'Switch to Login'}
-      </button>
+      </div>
     </div>
   );
 };
